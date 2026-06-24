@@ -29,14 +29,14 @@ public class GrpcClientApplication implements CommandLineRunner {
 //        studentNetworkService.getStudentProfile(1);
 //        studentNetworkService.subscribeCourseCatalog();
 
-        StudentEnrollmentRequest enrollment1 = StudentEnrollmentRequest.newBuilder().setStudentId(2)
+        StudentEnrollmentRequest enrollment1 = StudentEnrollmentRequest.newBuilder().setStudentId(3)
                 .setCourseId(1).setTerm("Fall 2024")
                 .setStatus("Enrolled").setGrade(2.2).build();
 
-        StudentEnrollmentRequest enrollment2 = StudentEnrollmentRequest.newBuilder().setStudentId(2)
+        StudentEnrollmentRequest enrollment2 = StudentEnrollmentRequest.newBuilder().setStudentId(3)
                 .setCourseId(2).setTerm("Fall 2024")
                 .setStatus("In Progress").setGrade(2.5).build();
-        StudentEnrollmentRequest enrollment3 = StudentEnrollmentRequest.newBuilder().setStudentId(2)
+        StudentEnrollmentRequest enrollment3 = StudentEnrollmentRequest.newBuilder().setStudentId(3)
                 .setCourseId(2).setTerm("Spring 2024")
                 .setStatus("In Progress").setGrade(2.5).build();
 
@@ -46,5 +46,6 @@ public class GrpcClientApplication implements CommandLineRunner {
         enrollmentList.add(enrollment3);
 
         studentNetworkService.publishBatchEnrollments(enrollmentList);
+
     }
 }
