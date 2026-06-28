@@ -58,6 +58,12 @@ public class StudentGrpcGateway {
                 .toList();
     }
 
+    public DemoEnrollmentResetResponseDto resetDemoEnrollments() {
+        log.info("Unary gRPC call: resetDemoEnrollments");
+        DemoEnrollmentResetResponse response = blockingStub.resetDemoEnrollments(Empty.getDefaultInstance());
+        return ProtoMapper.toDto(response);
+    }
+
     public void streamCourseCatalog(SseEmitter emitter) {
         log.info("Server-streaming gRPC call: streamCourseCatalog");
         asyncStub.streamCourseCatalog(Empty.getDefaultInstance(), new StreamObserver<CourseSummary>() {

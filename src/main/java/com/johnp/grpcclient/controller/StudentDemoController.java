@@ -136,6 +136,15 @@ public class StudentDemoController {
         }
     }
 
+    @PostMapping("/admin/reset-enrollments")
+    public DemoEnrollmentResetResponseDto resetDemoEnrollments() {
+        try {
+            return studentGrpcGateway.resetDemoEnrollments();
+        } catch (StatusRuntimeException ex) {
+            throw mapGrpcException(ex);
+        }
+    }
+
     private ResponseStatusException mapGrpcException(StatusRuntimeException ex) {
         Status.Code code = ex.getStatus().getCode();
         String description = ex.getStatus().getDescription() != null

@@ -109,6 +109,12 @@ public final class ProtoMapper {
                 .build();
     }
 
+    public static DemoEnrollmentResetResponseDto toDto(DemoEnrollmentResetResponse response) {
+        return new DemoEnrollmentResetResponseDto(
+                response.getRemovedCount(),
+                response.getMessage());
+    }
+
     private static String formatTimestamp(Timestamp timestamp) {
         if (timestamp == null || (timestamp.getSeconds() == 0 && timestamp.getNanos() == 0)) {
             return null;
