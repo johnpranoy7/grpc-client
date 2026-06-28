@@ -50,11 +50,33 @@ public final class ProtoMapper {
                 course.getCredits());
     }
 
+    public static StudentSummaryDto toDto(StudentSummary student) {
+        return new StudentSummaryDto(
+                student.getStudentId(),
+                student.getFirstName(),
+                student.getLastName(),
+                student.getProgram(),
+                student.getGpa());
+    }
+
     public static BatchEnrollResponseDto toDto(BatchEnrollStudentsResponse response) {
+        List<FailedEnrollmentDto> failures = response.getFailuresList().stream()
+                .map(ProtoMapper::toDto)
+                .toList();
+
         return new BatchEnrollResponseDto(
                 response.getSuccessCount(),
                 response.getFailureCount(),
-                response.getFailedStudentIdsList());
+                response.getFailedStudentIdsList(),
+                failures);
+    }
+
+    public static FailedEnrollmentDto toDto(FailedEnrollment failure) {
+        return new FailedEnrollmentDto(
+                failure.getStudentId(),
+                failure.getCourseId(),
+                failure.getReasonCode(),
+                failure.getMessage());
     }
 
     public static EnrollmentFeedbackDto toDto(EnrollmentFeedback feedback) {

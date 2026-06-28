@@ -42,6 +42,22 @@ public class StudentGrpcGateway {
         return ProtoMapper.toDto(response);
     }
 
+    public List<StudentSummaryDto> listStudentCatalog() {
+        log.info("Unary gRPC call: listStudentCatalog");
+        StudentCatalogResponse response = blockingStub.listStudentCatalog(Empty.getDefaultInstance());
+        return response.getStudentsList().stream()
+                .map(ProtoMapper::toDto)
+                .toList();
+    }
+
+    public List<CourseSummaryDto> listCourseCatalog() {
+        log.info("Unary gRPC call: listCourseCatalog");
+        CourseCatalogResponse response = blockingStub.listCourseCatalog(Empty.getDefaultInstance());
+        return response.getCoursesList().stream()
+                .map(ProtoMapper::toDto)
+                .toList();
+    }
+
     public void streamCourseCatalog(SseEmitter emitter) {
         log.info("Server-streaming gRPC call: streamCourseCatalog");
         asyncStub.streamCourseCatalog(Empty.getDefaultInstance(), new StreamObserver<CourseSummary>() {
@@ -68,6 +84,13 @@ public class StudentGrpcGateway {
             @Override
             public void onCompleted() {
                 log.info("Course catalog stream completed");
+                try {
+                    emitter.send(SseEmitter.event()
+                            .name("complete")
+                            .data("{\"status\":\"done\"}"));
+                } catch (IOException ex) {
+                    log.warn("Failed to send SSE complete event", ex);
+                }
                 emitter.complete();
             }
         });

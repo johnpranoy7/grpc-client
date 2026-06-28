@@ -94,6 +94,24 @@ public class StudentDemoController {
         }
     }
 
+    @GetMapping("/catalog/students")
+    public List<StudentSummaryDto> listStudents() {
+        try {
+            return studentGrpcGateway.listStudentCatalog();
+        } catch (StatusRuntimeException ex) {
+            throw mapGrpcException(ex);
+        }
+    }
+
+    @GetMapping("/catalog/courses")
+    public List<CourseSummaryDto> listCourses() {
+        try {
+            return studentGrpcGateway.listCourseCatalog();
+        } catch (StatusRuntimeException ex) {
+            throw mapGrpcException(ex);
+        }
+    }
+
     @GetMapping(value = "/courses/stream", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public SseEmitter streamCourseCatalog() {
         SseEmitter emitter = new SseEmitter(120_000L);
